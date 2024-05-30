@@ -1,24 +1,29 @@
-# README
+# Class Report Management System with Ruby on Rails and AdminLTE3
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Description
+This project is a class report management system developed using Ruby on Rails framework with AdminLTE3 as the frontend template. The system is designed to have three types of users: Admin, Teacher, and Student. It follows a monolithic architecture and uses PostgreSQL as the database.
 
-Things you may want to cover:
+## Features
+- **Admin Dashboard**
+  - Manage users (teachers and students)
+  - View and manage reports
 
-* Ruby version
+- **Teacher Dashboard**
+  - Create and manage class reports for students
+  - View reports submitted by students
 
-* System dependencies
+- **Student Dashboard**
+  - View their own class reports
 
-* Configuration
+## Technologies Used
+- Ruby on Rails
+- PostgreSQL
+- AdminLTE3 (Bootstrap 4)
 
-* Database creation
+## Database Structure
+You can view the relational database structure of this project [here](https://dbdiagram.io/d/Reports-Management-6658b221b65d9338791ddc8c).
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Usage
+- Sign up as an admin, teacher, or student.
+- Log in to your account.
+- Use the respective dashboard to manage users, create reports, and view reports.
