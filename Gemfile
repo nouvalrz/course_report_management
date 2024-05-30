@@ -68,3 +68,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+
+# Set up AdminLTE
+gem 'foreman', github: "ddollar/foreman"
