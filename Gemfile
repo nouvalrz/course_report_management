@@ -72,3 +72,6 @@ end
 
 # Set up AdminLTE
 gem 'foreman', github: "ddollar/foreman"
+
+# Set up authentication
+gem 'bcrypt'

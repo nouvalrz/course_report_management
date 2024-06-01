@@ -7,3 +7,9 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+
+# Seed for users
+User.destroy_all
+User.create!(username: "admin", password: "admin", role: "admin", password_confirmation: "admin")
+User.create!(username: "teacher", password: "teacher", role: "teacher", password_confirmation: "teacher")
