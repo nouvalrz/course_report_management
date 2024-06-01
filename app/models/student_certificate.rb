@@ -1,0 +1,2 @@
+class StudentCertificate < ApplicationRecord
+end
