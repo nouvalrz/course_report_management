@@ -1,14 +1,30 @@
-<h1>Login page</h1>
-<%= form_with model: @user, url: login_path do |f| %>
-  <div>
-    <%= f.label :username %><br>
-    <%= f.text_field :username %>
+<div class="login-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <h3>Course Report Management</h3>
+      <p>By Nouval Rizky</p>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">Admin/Teacher Sign In</p>
+      <%= form_with model: @user, url: login_path do |f| %>
+        <div class="input-group mb-3">
+          <%= f.text_field :username, class: "form-control", placeholder: "Username"  %>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <%= f.password_field :password, class: "form-control", placeholder: "Password" %>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+            <%= f.submit 'Login', class:"btn btn-primary btn-block mt-5" %>
+      <% end %>
+    </div>
   </div>
-  <div>
-    <%= f.label :password %><br>
-    <%= f.password_field :password %>
-  </div>
-  <p>
-    <%= f.submit 'Login' %>
-  </p>
-<% end %>
+</div>

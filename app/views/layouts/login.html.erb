@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CourseReportManagement</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <script src="https://kit.fontawesome.com/e53e49a7cf.js" crossorigin="anonymous"></script>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  <%# <link rel="stylesheet" href="/assets/adminlte/dist/css/adminlte.css"> %>
+</head>
+
+
+<body>
+<div class="wrapper">
+
+    <div class="content">
+      <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+        <%= yield %>
+      </div><!-- /.container-fluid -->
+    </div>
+
+  <!-- /.content -->
+</div>
+
+
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<%# <!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script> %>
+</body>
+
+</html>

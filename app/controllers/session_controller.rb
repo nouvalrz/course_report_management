@@ -1,5 +1,7 @@
 class SessionController < ApplicationController
+  layout 'login'
   def new
+    redirect_home_by_role(current_user) unless current_user.nil?
     @user = User.new
   end
 
