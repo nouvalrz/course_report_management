@@ -14,29 +14,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_01_220151) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "classes", force: :cascade do |t|
-    t.bigint "teacher_id", null: false
-    t.string "name", null: false
-    t.boolean "is_active", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["teacher_id"], name: "index_classes_on_teacher_id"
-  end
-
-  create_table "classes_students", id: false, force: :cascade do |t|
-    t.bigint "class_id", null: false
-    t.bigint "student_id", null: false
-  end
-
   create_table "course_enrollments", force: :cascade do |t|
-    t.bigint "class_id", null: false
+    t.bigint "master_class_id", null: false
     t.bigint "course_id", null: false
     t.date "start_date", null: false
     t.date "end_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["class_id"], name: "index_course_enrollments_on_class_id"
     t.index ["course_id"], name: "index_course_enrollments_on_course_id"
+    t.index ["master_class_id"], name: "index_course_enrollments_on_master_class_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -44,6 +30,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_01_220151) do
     t.boolean "is_active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "master_classes", force: :cascade do |t|
+    t.bigint "teacher_id", null: false
+    t.string "name", null: false
+    t.boolean "is_active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["teacher_id"], name: "index_master_classes_on_teacher_id"
+  end
+
+  create_table "master_classes_students", id: false, force: :cascade do |t|
+    t.bigint "master_class_id", null: false
+    t.bigint "student_id", null: false
   end
 
   create_table "report_criteria", force: :cascade do |t|
@@ -112,9 +112,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_01_220151) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "classes", "teachers"
-  add_foreign_key "course_enrollments", "classes"
   add_foreign_key "course_enrollments", "courses"
+  add_foreign_key "course_enrollments", "master_classes"
+  add_foreign_key "master_classes", "teachers"
   add_foreign_key "report_details", "report_criteria"
   add_foreign_key "report_details", "reports"
   add_foreign_key "reports", "course_enrollments"

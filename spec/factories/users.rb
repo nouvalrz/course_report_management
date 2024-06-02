@@ -2,10 +2,14 @@ FactoryBot.define do
   factory :user do
 
     transient do
-      username {Faker::Name.name.downcase.gsub(" ", "")}
+      custom_username {Faker::Name.name.downcase.gsub(" ", "")}
     end
 
-    password_digist {"password"}
+    # username {custom_username}
+
+    sequence(:username) {|n| "#{custom_username}#{n}"}
+
+    password {"password"}
     trait :admin do
       role { 'admin' }
     end

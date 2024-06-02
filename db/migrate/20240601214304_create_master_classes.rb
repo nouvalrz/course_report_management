@@ -1,6 +1,6 @@
-class CreateClasses < ActiveRecord::Migration[7.1]
+class CreateMasterClasses < ActiveRecord::Migration[7.1]
   def change
-    create_table :classes do |t|
+    create_table :master_classes do |t|
       t.references :teacher, null: false, foreign_key: true
       t.string :name, null: false
       t.boolean :is_active, null: false, default: true

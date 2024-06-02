@@ -9,7 +9,17 @@
 #   end
 
 
-# Seed for users
+# Seed for master users
 User.destroy_all
-User.create!(username: "admin", password: "admin", role: "admin", password_confirmation: "admin")
-User.create!(username: "teacher", password: "teacher", role: "teacher", password_confirmation: "teacher")
+User.create!(username: "admin@master", password: "password", role: "admin", password_confirmation: "password")
+User.create!(username: "teacher@master", password: "password", role: "teacher", password_confirmation: "password")
+
+# Seed all using factory
+FactoryBot.create_list(:report, 30)
+FactoryBot.create_list(:master_class_student, 30)
+FactoryBot.create_list(:student_certificate, 10)
+# FactoryBot.create_list(:master_class_student, 30)
+# FactoryBot.create_list(:course_enrollment, 30)
+# FactoryBot.create_list(:student_certificate, 30)
+
+

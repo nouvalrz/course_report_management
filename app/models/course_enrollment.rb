@@ -1,12 +1,12 @@
 class CourseEnrollment < ApplicationRecord
-  belongs_to :class
+  belongs_to :master_class
   belongs_to :course
   has_many :reports
   has_many :student_certificates
 
   validates :start_date, presence: true
   validates :end_date, presence: true
-  validates :class_id, presence: true
+  validates :master_class_id, presence: true
   validates :course_id, presence: true
 
   validate :end_date_after_start_date
