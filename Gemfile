@@ -75,3 +75,15 @@ gem 'foreman', github: "ddollar/foreman"
 
 # Set up authentication
 gem 'bcrypt'
+
+# Set up seeder
+gem 'faker'
+
+group :development, :test do
+  gem 'factory_bot_rails'
+end
+
+# Set up unit test
+group :development, :test do
+  gem 'rspec-rails'
+end
