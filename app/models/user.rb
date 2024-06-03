@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   has_one :teacher
 
-  validates :username, presence: true, uniqueness: true, length: {in: 8..500}
+  validates :username, presence: true, uniqueness: true, length: {in: 8..500}, format: { without: /\s/, message: "cannot contain spaces" }
   validates :password, presence: true, length: {in: 8..30}
   validates :role, presence: true, inclusion: {in: %w(teacher admin), message: "%{value} is not a valid role"}
 

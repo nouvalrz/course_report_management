@@ -7,7 +7,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root 'home#index'
-    get '/teacher', to: 'teachers#index'
+    # get '/teacher', to: 'teachers#index'
+    # get '/teacher/new', to: 'teachers#new'
+
+    resources :teachers, only: [:index, :show, :new, :create]
   end
 
   namespace :teacher do
