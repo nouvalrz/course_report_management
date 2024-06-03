@@ -1,7 +1,7 @@
 class MasterClass < ApplicationRecord
   belongs_to :teacher
   has_many :master_class_students
-  has_many :students, through: :class_students
+  has_many :students, through: :master_class_students
   has_many :course_enrollments
 
   validates :name, presence: true, length: {in: 1..50}
