@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root 'home#index'
+    get '/teacher', to: 'teachers#index'
   end
 
   namespace :teacher do

@@ -87,3 +87,6 @@ end
 group :development, :test do
   gem 'rspec-rails'
 end
+
+# Set up pagination
+gem 'pagy', '~> 8.4' # omit patch digit
