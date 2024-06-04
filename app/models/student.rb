@@ -1,6 +1,7 @@
 class Student < ApplicationRecord
   has_many :master_class_students
-  has_many :master_classes, through: :class_students
+  has_many :master_classes, through: :master_class_students
+  has_many :course_enrollments, through: :master_classes
   has_many :reports
   has_many :student_certificates
 

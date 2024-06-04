@@ -1,0 +1,105 @@
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Student Management</h2>
+    <%= link_to new_admin_student_path, class: "btn btn-success" do %>
+    <%= tag.i class: 'fa-solid fa-plus' %>
+    Add Student
+    <% end %>
+</div>
+<% if flash[:success].present? %>
+<div class="alert alert-success">
+    <%= flash[:success] %>
+</div>
+<% end %>
+<% if flash[:error].present? %>
+<div class="alert alert-danger">
+    <%= flash[:error] %>
+</div>
+<% end %>
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h5>Student List</h5>
+                    <p>Click one of them to see details</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="input-group input-group-sm" style="width: 300px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-info">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <%== pagy_bootstrap_nav(@pagy) %>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student Number</th>
+                        <th>Full Name</th>
+                        <th>Date of Birth</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% @students.each_with_index do |student, index| %>
+                    <tr data-widget="expandable-table" aria-expanded="false">
+                        <td><%= @pagy.offset + index + 1 %></td>
+                        <td style="width: 20%"><%= student.student_number %></td>
+                        <td style="width: 40%"><%= student.full_name %></td>
+                        <td style="width: 20%"><%= student.date_of_birth %></td>
+                        <td>
+                            <%= link_to edit_admin_student_path(student), class: "btn btn-primary" do %>
+                            <%= tag.i class: 'fa-solid fa-circle-info' %>
+                            Detail
+                            <% end %>
+                        </td>
+                    </tr>
+                    <tr class="expandable-body d-none">
+                        <td colspan="5">
+                            <div style="padding-top: 12px; margin-top: 0px; padding-bottom: 12px; margin-bottom: 16px; display: none; padding-left: 16px;">
+                                <% if student.master_classes.present? %>
+                                <h6>Class List</h6>
+                                <% else %>
+                                <h6>Has no class</h6>
+                                <% end %>
+                                <ul>
+                                    <% student.master_classes.each do |master_class| %>
+                                    <li><%= master_class.name %></li>
+                                    <% end %>
+                                </ul>
+                              <% if student.course_enrollments.active.present? %>
+                                <h6>Active Course List</h6>
+                              <% else %>
+                                <h6>Has no active course</h6>
+                              <% end %>
+                              <ul>
+                                <% student.course_enrollments.active.each do |course_enrollment| %>
+                                  <li><%= course_enrollment.course.title %></li>
+                                <% end %>
+                              </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <% end %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer clearfix">
+                <!--        <ul class="pagination pagination-sm m-0 float-right">-->
+                <!--          <li class="page-item"><a class="page-link" href="#">«</a></li>-->
+                <!--          <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+                <!--          <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+                <!--          <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+                <!--          <li class="page-item"><a class="page-link" href="#">»</a></li>-->
+                <!--        </ul>-->
+            </div>
+        </div>
+    </div>
+</div>
