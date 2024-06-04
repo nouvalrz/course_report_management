@@ -1,0 +1,47 @@
+<h2>Teacher Information</h2>
+<% if flash[:error].present? %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+<% if flash[:success].present? %>
+  <div class="alert alert-success">
+    <%= flash[:success] %>
+  </div>
+<% end %>
+<div class="row mt-4">
+  <div class="col-12 col-lg-8 col-md-12">
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Edit Teacher's Form</h3>
+      </div>
+      <%= form_with model: [:admin, @teacher] do |f| %>
+        <div class="card-body">
+          <div class="form-group">
+            <%= f.label :full_name, "Full Name" %>
+            <%= f.text_field :full_name, class: "form-control", placeholder: "Full Name"  %>
+          </div>
+          <%= f.fields_for :user, @teacher.user do |user_form| %>
+            <%= user_form.hidden_field :role, value: User::ROLES[:teacher] %>
+            <div class="form-group">
+              <%= user_form.label :username, "Username" %>
+              <%= user_form.text_field :username, class: "form-control", placeholder: "Username" %>
+            </div>
+            <div class="form-group">
+              <%= user_form.label :password, "Password" %>
+              <%= user_form.password_field :password, class: "form-control", placeholder: "Password", as: :string  %>
+            </div>
+            <div class="form-group">
+              <%= user_form.label :password_confirmation, "Password Confirmation" %>
+              <%= user_form.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation"  %>
+            </div>
+          <% end %>
+
+        </div>
+        <div class="card-footer">
+          <%= f.submit 'Add', class:"btn btn-success btn-block" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     # get '/teacher', to: 'teachers#index'
     # get '/teacher/new', to: 'teachers#new'
 
-    resources :teachers, only: [:index, :show, :new, :create]
+    resources :teachers, only: [:index, :edit, :new, :create, :update]
   end
 
   namespace :teacher do
