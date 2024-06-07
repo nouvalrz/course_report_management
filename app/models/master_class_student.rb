@@ -3,6 +3,6 @@ class MasterClassStudent < ApplicationRecord
   belongs_to :master_class
   belongs_to :student
 
-  validates :master_class_id, presence: true
+  # validates :master_class_id, presence: true
   validates :student_id, presence: true
 end
