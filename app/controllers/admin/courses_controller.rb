@@ -1,7 +1,7 @@
 class Admin::CoursesController < Admin::ApplicationController
 
   def index
-    @pagy, @courses = pagy(Course.all)
+    @pagy, @courses = pagy(Course.order(:id))
   end
 
   def new
@@ -17,6 +17,27 @@ class Admin::CoursesController < Admin::ApplicationController
       @course = Course.new
       flash.now[:error] = e.record.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
+  end
+
+  def edit
+    begin
+      @course = Course.find(params[:id])
+    rescue
+      redirect_to admin_courses_path, flash: {error: "Course not found"}
+    end
+  end
+
+  def update
+    @course = Course.find(params[:id])
+
+    @course.attributes = course_params
+    @course.save!
+
+    redirect_to edit_admin_course_path(@course), flash: {success: "Course updated!"}
+
+    rescue ActiveRecord::RecordInvalid => e
+      flash.now[:error] = e.record.errors.full_messages.to_sentence
+      render :edit, status: :unprocessable_entity
   end
 
   def course_params
