@@ -1,0 +1,100 @@
+<div class="d-flex justify-content-between align-items-center">
+  <h2>Class Management</h2>
+  <%= link_to new_admin_master_class_path, class: "btn btn-success" do %>
+    <%= tag.i class: 'fa-solid fa-plus' %>
+    Add Class
+  <% end %>
+</div>
+<% if flash[:success].present? %>
+  <div class="alert alert-success">
+    <%= flash[:success] %>
+  </div>
+<% end %>
+<% if flash[:error].present? %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+<div class="row mt-3">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h5>Class List</h5>
+          <p>Click one of them to see details</p>
+        </div>
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+          <div class="input-group input-group-sm" style="width: 300px;">
+            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-info">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+          <%== pagy_bootstrap_nav(@pagy) %>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <table class="table table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Teacher</th>
+            <th>Is Active</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @master_classes.each_with_index do |master_class, index| %>
+            <tr data-widget="expandable-table" aria-expanded="false">
+              <td><%= @pagy.offset + index + 1 %></td>
+              <td style="width: 20%"><%= master_class.name %></td>
+              <td style="width: 40%"><%= master_class.teacher.full_name %></td>
+              <td style="width: 20%">
+                <% if master_class.is_active %>
+                  <span class="badge badge-success">Active</span>
+                <% else %>
+                  <span class="badge badge-danger">Inactive</span>
+                <% end %></td>
+              <td>
+                <%= link_to edit_admin_master_class_path(master_class), class: "btn btn-primary" do %>
+                  <%= tag.i class: 'fa-solid fa-circle-info' %>
+                  Detail
+                <% end %>
+              </td>
+            </tr>
+            <tr class="expandable-body d-none">
+              <td colspan="5">
+                <div style="padding-top: 12px; margin-top: 0px; padding-bottom: 12px; margin-bottom: 16px; display: none; padding-left: 16px;">
+                  <% if master_class.students.present? %>
+                    <h6>Student List</h6>
+                  <% else %>
+                    <h6>Has no student</h6>
+                  <% end %>
+                  <ul>
+                    <% master_class.students.each do |student| %>
+                      <li><%= student.full_name %> (<%= student.student_number %>)</li>
+                    <% end %>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer clearfix">
+        <!--        <ul class="pagination pagination-sm m-0 float-right">-->
+        <!--          <li class="page-item"><a class="page-link" href="#">«</a></li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">»</a></li>-->
+        <!--        </ul>-->
+      </div>
+    </div>
+  </div>
+</div>
