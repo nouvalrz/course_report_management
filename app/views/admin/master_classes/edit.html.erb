@@ -1,0 +1,76 @@
+<h2>Class Information</h2>
+<% if flash[:error].present? %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+<% if flash[:success].present? %>
+  <div class="alert alert-success">
+    <%= flash[:success] %>
+  </div>
+<% end %>
+<div class="row mt-4">
+  <div class="col-12 col-lg-8 col-md-12">
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Edit Classes Form</h3>
+      </div>
+      <%= form_with model: [:admin, @master_class] do |f| %>
+        <div class="card-body">
+          <div class="form-group">
+            <%= f.label :name, "Class Name" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "Class Name"  %>
+          </div>
+          <div class="form-group">
+            <%= f.label :teacher_id, "Teacher Assignment" %>
+            <%= f.select :teacher_id, options_for_select(@teachers.map { |teacher| [teacher.full_name, teacher.id] }.unshift(["Select Teacher", "0"]), disabled: "0", selected: @master_class.teacher_id), {}, { class: "form-control select-teacher" }  %>
+          </div>
+          <div class="form-group">
+            <%= f.label :student_ids, "Student Assignment (Optional)" %>
+            <%= f.select :student_ids, options_for_select(@students.map { |student| ["#{student.full_name} (#{student.student_number})", student.id] }, selected: @master_class.student_ids), {}, { class: "form-control select-student", multiple: "multiple" }  %>
+          </div>
+          <div class="form-group">
+            <%= f.label :is_active, "Is Active" %>
+            <div class="select2-purple">
+              <%= f.select :is_active, options_for_select([["Active", true], ["Inactive", false]], @master_class.is_active), {}, { class: "form-control" } %>
+            </div>
+          </div>
+
+
+          <%#= f.fields_for :user, User.new do |user_form| %>
+          <%#= user_form.hidden_field :role, value: User::ROLES[:teacher] %>
+          <!--            <div class="form-group">-->
+          <%#= user_form.label :username, "Username" %>
+          <%#= user_form.text_field :username, class: "form-control", placeholder: "Username" %>
+          <!--            </div>-->
+          <!--            <div class="form-group">-->
+          <%#= user_form.label :password, "Password" %>
+          <%#= user_form.password_field :password, class: "form-control", placeholder: "Password"  %>
+          <!--            </div>-->
+          <!--            <div class="form-group">-->
+          <%#= user_form.label :password_confirmation, "Password Confirmation" %>
+          <%#= user_form.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation"  %>
+          <!--            </div>-->
+          <%# end %>
+
+        </div>
+        <div class="card-footer">
+          <%= f.submit 'Edit', class:"btn btn-success btn-block" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $(document).ready(function() {
+        $('.select-student').select2({
+            theme: 'classic',
+            multiple: true,
+        });
+        $('.select-teacher').select2({
+            theme: 'bootstrap4',
+        });
+    });
+</script>
