@@ -11,9 +11,12 @@
       <div class="icon">
         <i class="fa-solid fa-user-tie"></i>
       </div>
-      <a href="#" class="small-box-footer">
-        More info <i class="fas fa-arrow-circle-right"></i>
-      </a>
+
+      <%= link_to admin_teachers_path, class: "small-box-footer" do %>
+        <i class="fas fa-arrow-circle-right"></i>
+        More info
+    <% end %>
+
     </div>
   </div>
   <div class="col-lg-3 col-6">
@@ -25,9 +28,10 @@
       <div class="icon">
         <i class="fa-solid fa-users"></i>
       </div>
-      <a href="#" class="small-box-footer">
-        More info <i class="fas fa-arrow-circle-right"></i>
-      </a>
+      <%= link_to admin_students_path, class: "small-box-footer" do %>
+        <i class="fas fa-arrow-circle-right"></i>
+        More info
+      <% end %>
     </div>
   </div>
   <div class="col-lg-3 col-6">
@@ -39,9 +43,10 @@
       <div class="icon">
         <i class="fa-solid fa-book"></i>
       </div>
-      <a href="#" class="small-box-footer">
-        More info <i class="fas fa-arrow-circle-right"></i>
-      </a>
+      <%= link_to admin_courses_path, class: "small-box-footer" do %>
+        <i class="fas fa-arrow-circle-right"></i>
+        More info
+      <% end %>
     </div>
   </div>
   <div class="col-lg-3 col-6">
@@ -53,9 +58,10 @@
       <div class="icon">
         <i class="fa-solid fa-landmark"></i>
       </div>
-      <a href="#" class="small-box-footer">
-        More info <i class="fas fa-arrow-circle-right"></i>
-      </a>
+      <%= link_to admin_master_classes_path, class: "small-box-footer" do %>
+        <i class="fas fa-arrow-circle-right"></i>
+        More info
+      <% end %>
     </div>
   </div>
 </div>
