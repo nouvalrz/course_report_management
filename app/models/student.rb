@@ -5,6 +5,8 @@ class Student < ApplicationRecord
   has_many :reports
   has_many :student_certificates
 
+  accepts_nested_attributes_for :master_class_students
+
   validates :full_name, presence: true, length: {in: 4..100}
   validates :student_number, presence: true, uniqueness: true, length: {is: 10}
   validates :date_of_birth, presence: true
