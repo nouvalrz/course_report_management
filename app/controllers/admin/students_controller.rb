@@ -1,6 +1,5 @@
-class Admin::StudentsController < ApplicationController
-  before_action :authenticate_user
-  before_action :authenticate_admin
+class Admin::StudentsController < Admin::ApplicationController
+
   def index
     @pagy, @students = pagy(Student.all)
   end

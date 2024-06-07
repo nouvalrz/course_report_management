@@ -6,12 +6,14 @@ Rails.application.routes.draw do
   delete 'logout', to: 'session#destroy', as: :logout
 
   namespace :admin do
+    get 'courses/index'
     root 'home#index'
     # get '/teacher', to: 'teachers#index'
     # get '/teacher/new', to: 'teachers#new'
 
     resources :teachers, only: [:index, :edit, :new, :create, :update]
     resources :students, only: [:index, :edit, :new, :create, :update]
+    resources :courses, only: [:index, :edit, :new, :create, :update]
   end
 
   namespace :teacher do
