@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-between align-items-center">
-  <h2>Class Management</h2>
-  <%= link_to new_admin_master_class_path, class: "btn btn-success" do %>
-    <%= tag.i class: 'fa-solid fa-plus' %>
-    Add Class
-  <% end %>
+  <h2>Course Enrollments</h2>
+  <%#= link_to new_admin_master_class_path, class: "btn btn-success" do %>
+    <%#= tag.i class: 'fa-solid fa-plus' %>
+<!--    Add Class-->
+  <%# end %>
 </div>
 <% if flash[:success].present? %>
   <div class="alert alert-success">
@@ -20,7 +20,7 @@
     <div class="card">
       <div class="card-header">
         <div>
-          <h5>Class List</h5>
+          <h5>Course Enrollment List</h5>
           <p>Click one of them to see details</p>
         </div>
         <div class="d-flex justify-content-between align-items-center flex-wrap">
@@ -41,9 +41,8 @@
           <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Teacher</th>
-            <th>Is Active</th>
+            <th>Class Name</th>
+            <th>Active Course</th>
             <th>Action</th>
           </tr>
           </thead>
@@ -52,41 +51,33 @@
             <tr data-widget="expandable-table" aria-expanded="false">
               <td><%= @pagy.offset + index + 1 %></td>
               <td style="width: 20%"><%= master_class.name %></td>
-              <td style="width: 40%"><%= master_class.teacher.full_name %></td>
-              <td style="width: 20%">
-                <% if master_class.is_active %>
-                  <span class="badge badge-success">Active</span>
-                <% else %>
-                  <span class="badge badge-danger">Inactive</span>
-                <% end %></td>
+              <td style="width: 40%"><%= master_class.course_enrollments.active.present? ? master_class.course_enrollments.active.first.course.title : '-' %></td>
+<!--              <td style="width: 20%">-->
+                <%# if master_class.is_active %>
+<!--                  <span class="badge badge-success">Active</span>-->
+                <%# else %>
+<!--                  <span class="badge badge-danger">Inactive</span>-->
+<!--                <%# end %></td>-->
               <td>
-                <%= link_to edit_admin_master_class_path(master_class), class: "btn btn-primary" do %>
-                  <%= tag.i class: 'fa-solid fa-circle-info' %>
-                  Detail
+                <%= link_to edit_admin_course_enrollment_path(master_class), class: "btn btn-primary" do %>
+                  <%= tag.i class: 'nav-icon fas fa-repeat' %>
+                  Enroll Course
                 <% end %>
               </td>
             </tr>
             <tr class="expandable-body d-none">
               <td colspan="5">
                 <div style="padding-top: 12px; margin-top: 0px; padding-bottom: 12px; margin-bottom: 16px; display: none; padding-left: 16px;">
-                  <% if master_class.students.present? %>
-                    <h6>Student List</h6>
+                  <% if master_class.course_enrollments.present? %>
+                    <h6>Course List</h6>
                   <% else %>
-                    <h6>Has no student</h6>
+                    <h6>Has no Course</h6>
                   <% end %>
                   <ul>
-                    <% master_class.students.each do |student| %>
-                      <li><%= student.full_name %> (<%= student.student_number %>)</li>
+                    <% master_class.course_enrollments.each do |course_enrollment| %>
+                      <li><%= course_enrollment.course.title %></li>
                     <% end %>
                   </ul>
-                  <% if master_class.course_enrollments.active.present? %>
-                    <h6>Active Course</h6>
-                    <ul>
-                      <li><%= master_class.course_enrollments.active.first.course.title %></li>
-                    </ul>
-                  <% else %>
-                    <h6>Has no active course</h6>
-                  <% end %>
                 </div>
               </td>
             </tr>

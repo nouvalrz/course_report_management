@@ -13,7 +13,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="/assets/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="<%= asset_path('adminlte/user2-160x160.jpg') %>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"><%= current_user.username %></a>
@@ -80,7 +80,6 @@
                 <% end %>
               </li>
               <li class="nav-item">
-
                   <%= link_to admin_master_classes_path, class: "nav-link #{'active' if current_page?(admin_master_classes_path)}" do %>
                     <i class="far fa-circle nav-icon"></i>
                     <p>Classes</p>
@@ -89,14 +88,19 @@
               </li>
             </ul>
           </li>
-<!--          <li class="nav-item">-->
+          <li class="nav-item">
+            <%= link_to admin_course_enrollments_path, class: "nav-link #{'active' if current_page?(admin_course_enrollments_path)}" do %>
+              <i class="nav-icon fas fa-repeat"></i>
+              <p>Course Enrollment</p>
+            <% end %>
 <!--            <a href="#" class="nav-link">-->
+
 <!--              <i class="nav-icon fas fa-repeat"></i>-->
 <!--              <p>-->
-<!--                Student Assignment-->
+<!--                Course Enrollment-->
 <!--              </p>-->
 <!--            </a>-->
-<!--          </li>-->
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

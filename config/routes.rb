@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :students, only: [:index, :edit, :new, :create, :update]
     resources :courses, only: [:index, :edit, :new, :create, :update]
     resources :master_classes, only: [:index, :edit, :new, :create, :update]
+    resources :course_enrollments, only: [:index, :edit, :new, :create, :update]
   end
 
   namespace :teacher do
