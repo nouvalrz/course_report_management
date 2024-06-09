@@ -1,0 +1,157 @@
+<h2>Course Enrollment</h2>
+<% if flash[:error].present? %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+<% if flash[:success].present? %>
+  <div class="alert alert-success">
+    <%= flash[:success] %>
+  </div>
+<% end %>
+<div class="row mt-4">
+  <div class="col-12 col-lg-3 col-md-12">
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Class Information</h3>
+      </div>
+      <%= form_with model: @master_class, url: edit_admin_course_enrollment_path(@master_class) do |f| %>
+        <div class="card-body">
+          <div class="form-group">
+            <%= f.label :name, "Class Name" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "Class Name", disabled:true  %>
+          </div>
+          <div class="form-group">
+            <%= f.label :teacher, "Teacher Name" %>
+            <%= f.text_field :teacher, class: "form-control", placeholder: "Class Name", disabled:true, value: @master_class.teacher.full_name  %>
+          </div>
+
+
+<!--          <div class="form-group">-->
+            <%#= f.label :course_id, "Course Enrollment" %>
+            <%#= f.select :course_id, options_for_select(@courses.map { |course| [course.title, course.id] }.unshift(["Select Course", "0"]), disabled: "0", selected: "0"), {}, { class: "form-control select-teacher" }  %>
+<!--          </div>-->
+<!--          <div class="form-group">-->
+            <%#= f.label :start_date, "Start Date" %>
+            <%#= f.date_field :start_date, class: "form-control"  %>
+<!--          </div>-->
+<!--          <div class="form-group">-->
+            <%#= f.label :end_date, "End Date" %>
+            <%#= f.date_field :end_date, class: "form-control"  %>
+<!--          </div>-->
+
+
+          <!--          <div class="form-group">-->
+          <%#= f.label :student_ids, "Student Assignment (Optional)" %>
+          <%#= f.select :student_ids, options_for_select(@students.map { |student| ["#{student.full_name} (#{student.student_number})", student.id] }, selected: @master_class.student_ids), {}, { class: "form-control select-student", multiple: "multiple" }  %>
+          <!--          </div>-->
+          <!--          <div class="form-group">-->
+          <%#= f.label :is_active, "Is Active" %>
+          <!--            <div class="select2-purple">-->
+          <%#= f.select :is_active, options_for_select([["Active", true], ["Inactive", false]], @master_class.is_active), {}, { class: "form-control" } %>
+          <!--            </div>-->
+          <!--          </div>-->
+
+
+          <%#= f.fields_for :user, User.new do |user_form| %>
+          <%#= user_form.hidden_field :role, value: User::ROLES[:teacher] %>
+          <!--            <div class="form-group">-->
+          <%#= user_form.label :username, "Username" %>
+          <%#= user_form.text_field :username, class: "form-control", placeholder: "Username" %>
+          <!--            </div>-->
+          <!--            <div class="form-group">-->
+          <%#= user_form.label :password, "Password" %>
+          <%#= user_form.password_field :password, class: "form-control", placeholder: "Password"  %>
+          <!--            </div>-->
+          <!--            <div class="form-group">-->
+          <%#= user_form.label :password_confirmation, "Password Confirmation" %>
+          <%#= user_form.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation"  %>
+          <!--            </div>-->
+          <%# end %>
+
+        </div>
+<!--        <div class="card-footer">-->
+          <%#= f.submit 'Enroll', class:"btn btn-success btn-block" %>
+<!--        </div>-->
+      <% end %>
+    </div>
+  </div>
+  <div class="col-12 col-lg-9 col-md-12">
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Course Enrollment Form</h3>
+      </div>
+      <div class="p-3">
+        <%= form_with model: @master_class, url: edit_admin_course_enrollment_path(@master_class) do |f| %>
+          <!-- Classroom fields -->
+
+  <!--        <h3>Course Enrollments</h3>-->
+          <div id="course_enrollments">
+            <%= f.fields_for :course_enrollments do |course_enrollment_fields| %>
+              <%= render 'course_enrollment_fields', f: course_enrollment_fields %>
+            <% end %>
+          </div>
+
+              <%= link_to_add_fields "Add Course Enrollment", f, :course_enrollments %>
+          <div class="row mt-4">
+            <div class="col-12">
+              <%= f.submit "Save", class: "btn btn-primary w-100" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="row mt-4">-->
+
+<!--</div>-->
+
+<script>
+
+    // $(document).on('click', '.add_fields', function(event) {
+    //     var time = new Date().getTime();
+    //     var regexp = new RegExp($(this).data('id'), 'g');
+    //     $(this).before($(this).data('fields').replace(regexp, time));
+    //     event.preventDefault();
+    // });
+    //
+    //
+    // $(document).on('click', '.remove_fields', function(event) {
+    //     $(this).prev('input[type=hidden]').val('1');
+    //     $(this).closest('div').hide();
+    //     event.preventDefault();
+    // });
+
+    $(document).on('click', '.add_fields', function(event) {
+        var time = new Date().getTime();
+        var regexp = new RegExp($(this).data('id'), 'g');
+        var newFields = $(this).data('fields').replace(regexp, time);
+
+        // Tambahkan form baru
+        $(this).before(newFields);
+
+        $('.select-course').select2({
+            theme: 'bootstrap4',
+        });
+
+        // Temukan form baru dan tambahkan opsi default
+        var newSelect = $('.nested-fields:last-child .course-select');
+        newSelect.prepend('<option value="" selected="selected" disabled="disabled">Select Course</option>');
+
+        event.preventDefault();
+    });
+
+    $(document).on('click', '.remove_fields', function(event) {
+        $(this).prev('input[type=hidden]').val('1');
+        $(this).closest('.nested-fields').hide();
+        event.preventDefault();
+    });
+
+
+    $(document).ready(function() {
+        $('.select-course').select2({
+            theme: 'bootstrap4',
+        });
+    });
+</script>

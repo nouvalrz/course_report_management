@@ -3,4 +3,6 @@ class Course < ApplicationRecord
 
   validates :title, presence: true, length: {in: 5..50}, uniqueness: true
   validates :is_active, inclusion:{in: [true, false]}
+
+  scope :active, -> {where('is_active = true')}
 end

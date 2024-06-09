@@ -5,6 +5,8 @@ class MasterClass < ApplicationRecord
   has_many :course_enrollments
   has_many :courses, through: :course_enrollments
 
+  accepts_nested_attributes_for :course_enrollments, allow_destroy: true
+
   validates :name, presence: true, length: {in: 1..50}
   validates :is_active, inclusion: { in: [true, false] }
   validates :teacher_id, presence: true

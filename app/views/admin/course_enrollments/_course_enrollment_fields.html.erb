@@ -1,0 +1,26 @@
+<div class="nested-fields form-group">
+  <div class="row align-items-end justify-content-between">
+    <div class="col-4">
+      <%= f.label :course_id, "Select Course" %>
+      <%= f.collection_select :course_id, Course.all, :id, :title, { include_blank: true }, class: "select-course" %>
+    </div>
+    <div class="col-3">
+        <%= f.label :start_date, "Start Date" %>
+        <%= f.date_field :start_date, class: "form-control"  %>
+
+    </div>
+    <div class="col-3">
+        <%= f.label :end_date, "End Date" %>
+        <%= f.date_field :end_date, class: "form-control"  %>
+
+    </div>
+    <div class="col-2">
+      <%= link_to "Remove", '#', class: 'remove_fields btn btn-danger' %>
+    </div>
+  </div>
+  <%= f.hidden_field :_destroy %>
+</div>
+
+<%#= f.collection_select :course_id, Course.all, :id, :title %>
+<%#= f.hidden_field :_destroy %>
+<%#= link_to "Remove", '#', class: 'remove_fields' %>
