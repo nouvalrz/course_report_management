@@ -1,7 +1,8 @@
 class Admin::StudentsController < Admin::ApplicationController
 
   def index
-    @pagy, @students = pagy(Student.all)
+    students = params[:query] ? Student.search(params[:query]).order(:id) : Student.order(:id)
+    @pagy, @students = pagy(students)
   end
 
   def new

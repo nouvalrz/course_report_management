@@ -17,4 +17,8 @@ class MasterClass < ApplicationRecord
     course_enrollments.each(&:destroy)
     super
   end
+
+  def self.search(query)
+    self.joins(:teacher).where("master_classes.name ILIKE :query OR teachers.full_name ILIKE :query", query: "%#{query.downcase}%")
+  end
 end

@@ -1,6 +1,8 @@
 class Admin::CourseEnrollmentsController < Admin::ApplicationController
+
   def index
-    @pagy, @master_classes = pagy(MasterClass.active)
+    master_classes = params[:query] ? MasterClass.search(params[:query]).active : MasterClass.order(:id).active
+    @pagy, @master_classes = pagy(master_classes)
   end
 
   def edit

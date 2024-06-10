@@ -13,6 +13,10 @@ class Student < ApplicationRecord
 
   before_validation :add_student_number
 
+  def self.search(query)
+    self.joins(:master_classes).where("students.full_name ILIKE :query OR master_classes.name ILIKE :query OR students.student_number ILIKE :query", query: "%#{query.downcase}%")
+  end
+
   private
 
   def dob_cant_be_in_future

@@ -1,7 +1,8 @@
 class Admin::MasterClassesController < Admin::ApplicationController
 
   def index
-    @pagy, @master_classes = pagy(MasterClass.order(:id))
+    master_classes = params[:query] ? MasterClass.search(params[:query]) : MasterClass.order(:id)
+    @pagy, @master_classes = pagy(master_classes)
   end
 
   def new

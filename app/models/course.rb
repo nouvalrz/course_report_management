@@ -5,4 +5,8 @@ class Course < ApplicationRecord
   validates :is_active, inclusion:{in: [true, false]}
 
   scope :active, -> {where('is_active = true')}
+
+  def self.search(query)
+      self.where("title ILIKE ?", "%#{query.downcase}%")
+  end
 end
