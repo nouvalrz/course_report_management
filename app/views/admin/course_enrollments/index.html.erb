@@ -51,7 +51,7 @@
             <tr data-widget="expandable-table" aria-expanded="false">
               <td><%= @pagy.offset + index + 1 %></td>
               <td style="width: 20%"><%= master_class.name %></td>
-              <td style="width: 40%"><%= master_class.course_enrollments.active.present? ? master_class.course_enrollments.active.first.course.title : '-' %></td>
+              <td style="width: 40%"><%= master_class.course_enrollments.active.present? ? master_class.course_enrollments.active.map {|c_enrollment| c_enrollment.course.title}.join(", ") : '-' %></td>
 <!--              <td style="width: 20%">-->
                 <%# if master_class.is_active %>
 <!--                  <span class="badge badge-success">Active</span>-->

@@ -12,4 +12,9 @@ class MasterClass < ApplicationRecord
   validates :teacher_id, presence: true
 
   scope :active, -> {where('is_active = true')}
+
+  def destroy
+    course_enrollments.each(&:destroy)
+    super
+  end
 end

@@ -1,4 +1,6 @@
 class CourseEnrollment < ApplicationRecord
+  default_scope { where(deleted_at: nil) }
+
   belongs_to :master_class
   belongs_to :course
   has_many :reports
@@ -12,6 +14,14 @@ class CourseEnrollment < ApplicationRecord
   scope :active, -> { where('start_date <= ? AND end_date >= ?', Date.today, Date.today) }
 
   validate :end_date_after_start_date
+
+  def destroy
+    update(deleted_at: Time.current)
+  end
+
+  def really_destroy!
+    super()
+  end
 
   def end_date_after_start_date
     return if end_date.blank? || start_date.blank?

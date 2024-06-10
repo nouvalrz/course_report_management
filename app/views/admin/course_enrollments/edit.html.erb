@@ -82,7 +82,7 @@
         <h3 class="card-title">Course Enrollment Form</h3>
       </div>
       <div class="p-3">
-        <%= form_with model: @master_class, url: edit_admin_course_enrollment_path(@master_class) do |f| %>
+        <%= form_with model: @master_class, url: admin_course_enrollment_path, method: 'patch' do |f| %>
           <!-- Classroom fields -->
 
   <!--        <h3>Course Enrollments</h3>-->
@@ -123,24 +123,29 @@
     //     event.preventDefault();
     // });
 
-    $(document).on('click', '.add_fields', function(event) {
-        var time = new Date().getTime();
-        var regexp = new RegExp($(this).data('id'), 'g');
-        var newFields = $(this).data('fields').replace(regexp, time);
+    $(document).ready(function (){
+        $(document).off('click', '.add_fields');
+        $(document).on('click', '.add_fields', function(event) {
+            var time = new Date().getTime();
+            var regexp = new RegExp($(this).data('id'), 'g');
+            var newFields = $(this).data('fields').replace(regexp, time);
 
-        // Tambahkan form baru
-        $(this).before(newFields);
+            // Tambahkan form baru
+            $(this).before(newFields);
 
-        $('.select-course').select2({
-            theme: 'bootstrap4',
+            $('.select-course').select2({
+                theme: 'bootstrap4',
+            });
+
+            // Temukan form baru dan tambahkan opsi default
+            var newSelect = $('.nested-fields:last-child .course-select');
+            newSelect.prepend('<option value="" selected="selected" disabled="disabled">Select Course</option>');
+
+            event.preventDefault();
         });
+    })
 
-        // Temukan form baru dan tambahkan opsi default
-        var newSelect = $('.nested-fields:last-child .course-select');
-        newSelect.prepend('<option value="" selected="selected" disabled="disabled">Select Course</option>');
 
-        event.preventDefault();
-    });
 
     $(document).on('click', '.remove_fields', function(event) {
         $(this).prev('input[type=hidden]').val('1');
