@@ -1,0 +1,62 @@
+<% if flash[:error].present? %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+<h2>Add New Criterium</h2>
+<div class="row mt-4">
+  <div class="col-12 col-lg-8 col-md-12">
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Report Criterium's Form</h3>
+      </div>
+      <%= form_with model: @report_criterium, url: admin_report_criteria_path, html: { autocomplete: "new-password" } do |f| %>
+        <div class="card-body">
+          <div class="form-group">
+            <%= f.label :title, "Criterium Title" %>
+            <%= f.text_field :title, class: "form-control", placeholder: "Title"  %>
+          </div>
+          <div class="form-group">
+            <%= f.label :is_active, "Is Active" %>
+            <%= f.select :is_active, options_for_select([["Active", true], ["Inactive", false]], true), {}, { class: "form-control" } %>
+          </div>
+
+
+
+          <%#= f.fields_for :user, User.new do |user_form| %>
+          <%#= user_form.hidden_field :role, value: User::ROLES[:teacher] %>
+          <!--            <div class="form-group">-->
+          <%#= user_form.label :username, "Username" %>
+          <%#= user_form.text_field :username, class: "form-control", placeholder: "Username" %>
+          <!--            </div>-->
+          <!--            <div class="form-group">-->
+          <%#= user_form.label :password, "Password" %>
+          <%#= user_form.password_field :password, class: "form-control", placeholder: "Password"  %>
+          <!--            </div>-->
+          <!--            <div class="form-group">-->
+          <%#= user_form.label :password_confirmation, "Password Confirmation" %>
+          <%#= user_form.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation"  %>
+          <!--            </div>-->
+          <%# end %>
+
+        </div>
+        <div class="card-footer">
+          <%= f.submit 'Add', class:"btn btn-success btn-block" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    // $(document).ready(function() {
+    //     $('.select-teacher').select2({
+    //         theme: 'bootstrap4',
+    //         multiple: true,
+    //     });
+    //     $('.mantap').select2({
+    //         theme: 'bootstrap4'
+    //     });
+    // });
+</script>

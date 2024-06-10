@@ -86,6 +86,13 @@
                   <% end %>
                 </a>
               </li>
+              <li class="nav-item">
+                <%= link_to admin_report_criteria_path, class: "nav-link #{'active' if current_page?(admin_report_criteria_path)}" do %>
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Report Criteria</p>
+                <% end %>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">

@@ -24,16 +24,23 @@
                     <p>Click one of them to see details</p>
                 </div>
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
-                  <%= form_tag admin_students_path, method: 'get' do %>
-                    <div class="input-group input-group-sm" style="width: 300px;">
-                      <%= text_field_tag :query, params[:query], placeholder: "Search name or student number", class: "form-control float-right" %>
-                      <div class="input-group-append">
-                        <%= button_tag class: "btn btn-info" do %>
-                          <i class="fas fa-search"></i>
-                        <% end %>
+                  <div class="d-flex">
+                    <%= form_tag admin_students_path, method: 'get' do %>
+                      <div class="input-group input-group-sm" style="width: 300px;">
+                        <%= text_field_tag :query, params[:query], placeholder: "Search name or student number", class: "form-control float-right" %>
+                        <div class="input-group-append">
+                          <%= button_tag class: "btn btn-info" do %>
+                            <i class="fas fa-search"></i>
+                          <% end %>
+                        </div>
                       </div>
-                    </div>
-                  <% end %>
+                    <% end %>
+                    <% if params[:query].present? %>
+                      <a class="btn-sm btn-danger ml-1" href="<%= admin_students_path %>">
+                        <i class="fa-solid fa-xmark"></i>
+                      </a>
+                    <% end %>
+                  </div>
                     <%== pagy_bootstrap_nav(@pagy) %>
                 </div>
             </div>

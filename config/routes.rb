@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :courses, only: [:index, :edit, :new, :create, :update]
     resources :master_classes, only: [:index, :edit, :new, :create, :update]
     resources :course_enrollments, only: [:index, :edit, :new, :create, :update]
+    resources :report_criteria, only: [:index, :edit, :new, :create, :update]
   end
 
   namespace :teacher do
