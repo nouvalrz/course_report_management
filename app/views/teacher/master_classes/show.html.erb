@@ -1,0 +1,99 @@
+<h2>Class Information</h2>
+<div class="row">
+  <div class="col-12 col-lg-3 col-md-12">
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Class Information</h3>
+      </div>
+      <%= form_with model: [:teacher, @master_class] do |f| %>
+        <div class="card-body">
+          <div class="form-group">
+            <%= f.label :name, "Class Name" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "Class Name", disabled: true %>
+          </div>
+          <div class="form-group">
+            <%= f.label :teacher, "Teacher Name" %>
+            <%= f.text_field :teacher, class: "form-control", placeholder: "Class Name", disabled: true, value: @master_class.teacher.full_name %>
+          </div>
+          <div class="form-group">
+            <%= f.label :active_courses, "Active Courses" %>
+            <%= f.text_field :active_courses, class: "form-control", placeholder: "Class Name", disabled: true, value: @master_class.course_enrollments.active.present? ? @master_class.course_enrollments.active.map {|c_enrollment| c_enrollment.course.title}.join(", ") : '-' %>
+          </div>
+      <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-9 col-md-12">
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Course Enrollments</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Course Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+              </tr>
+              </thead>
+              <% @master_class.course_enrollments.each_with_index do |course_enrollment, index| %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td style="width: 20%"><%= course_enrollment.course.title %></td>
+                  <td style="width: 20%"><%= course_enrollment.start_date %></td>
+                  <td>
+                    <%= course_enrollment.end_date %>
+                  </td>
+                </tr>
+              <% end %>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Class Students</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Student Number</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <% @master_class.students.each_with_index do |student, index| %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td style="width: 20%"><%= student.full_name %></td>
+                  <td style="width: 20%"><%= student.student_number %></td>
+                  <td>
+                    <%= link_to teacher_student_path(student), class: "btn btn-primary" do %>
+                      <%= tag.i class: 'fa-solid fa-circle-info' %>
+                      Detail
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

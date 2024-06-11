@@ -1,0 +1,109 @@
+<div class="d-flex justify-content-between align-items-center">
+  <h2>Class List</h2>
+</div>
+<%# if flash[:success].present? %>
+<!--  <div class="alert alert-success">-->
+    <%#= flash[:success] %>
+<!--  </div>-->
+<%# end %>
+<%# if flash[:error].present? %>
+<!--  <div class="alert alert-danger">-->
+    <%#= flash[:error] %>
+<!--  </div>-->
+<%# end %>
+<div class="row mt-3">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h5>Class List</h5>
+          <p>Click one of them to see details</p>
+        </div>
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+          <div class="d-flex">
+            <%= form_tag teacher_master_classes_path, method: 'get' do %>
+              <div class="input-group input-group-sm" style="width: 300px;">
+                <%= text_field_tag :query, params[:query], placeholder: "Search class or teacher", class: "form-control float-right" %>
+                <div class="input-group-append">
+                  <%= button_tag class: "btn btn-info" do %>
+                    <i class="fas fa-search"></i>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+            <% if params[:query].present? %>
+              <a class="btn-sm btn-danger ml-1" href="<%= teacher_master_classes_path %>">
+                <i class="fa-solid fa-xmark"></i>
+              </a>
+            <% end %>
+          </div>
+          <%== pagy_bootstrap_nav(@pagy) %>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <table class="table table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Class Name</th>
+            <th>Active Course</th>
+            <th>Total Student</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @master_classes.each_with_index do |master_class, index| %>
+            <tr data-widget="expandable-table" aria-expanded="false">
+              <td><%= @pagy.offset + index + 1 %></td>
+              <td style="width: 20%"><%= master_class.name %></td>
+              <td style="width: 40%"><%= master_class.course_enrollments.active.present? ? master_class.course_enrollments.active.map {|c_enrollment| c_enrollment.course.title}.join(", ") : '-' %></td>
+              <td style="width: 20%">
+                <%= master_class.students.count %> Students</td>
+              <td>
+                <%= link_to teacher_master_class_path(master_class), class: "btn btn-primary" do %>
+                  <%= tag.i class: 'fa-solid fa-circle-info' %>
+                  Detail
+                <% end %>
+              </td>
+            </tr>
+            <tr class="expandable-body d-none">
+              <td colspan="5">
+                <div style="padding-top: 12px; margin-top: 0px; padding-bottom: 12px; margin-bottom: 16px; display: none; padding-left: 16px;">
+                  <% if master_class.students.present? %>
+                    <h6>Student List</h6>
+                  <% else %>
+                    <h6>Has no student</h6>
+                  <% end %>
+                  <ul>
+                    <% master_class.students.each do |student| %>
+                      <li><%= student.full_name %> (<%= student.student_number %>)</li>
+                    <% end %>
+                  </ul>
+                  <% if master_class.course_enrollments.active.present? %>
+                    <h6>Active Course</h6>
+                    <ul>
+                      <li><%= master_class.course_enrollments.active.first.course.title %></li>
+                    </ul>
+                  <% else %>
+                    <h6>Has no active course</h6>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer clearfix">
+        <!--        <ul class="pagination pagination-sm m-0 float-right">-->
+        <!--          <li class="page-item"><a class="page-link" href="#">«</a></li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">»</a></li>-->
+        <!--        </ul>-->
+      </div>
+    </div>
+  </div>
+</div>
