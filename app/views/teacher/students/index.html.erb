@@ -1,11 +1,6 @@
 <div class="d-flex justify-content-between align-items-center">
-  <h2>Class List</h2>
+  <h2>Student Management</h2>
 </div>
-<%# if flash[:success].present? %>
-<!--  <div class="alert alert-success">-->
-    <%#= flash[:success] %>
-<!--  </div>-->
-<%# end %>
 <% if flash[:error].present? %>
   <div class="alert alert-danger">
     <%= flash[:error] %>
@@ -16,14 +11,14 @@
     <div class="card">
       <div class="card-header">
         <div>
-          <h5>Class List</h5>
+          <h5>Student List</h5>
           <p>Click one of them to see details</p>
         </div>
         <div class="d-flex justify-content-between align-items-center flex-wrap">
           <div class="d-flex">
-            <%= form_tag teacher_master_classes_path, method: 'get' do %>
+            <%= form_tag teacher_students_path, method: 'get' do %>
               <div class="input-group input-group-sm" style="width: 300px;">
-                <%= text_field_tag :query, params[:query], placeholder: "Search class or teacher", class: "form-control float-right" %>
+                <%= text_field_tag :query, params[:query], placeholder: "Search name or student number", class: "form-control float-right" %>
                 <div class="input-group-append">
                   <%= button_tag class: "btn btn-info" do %>
                     <i class="fas fa-search"></i>
@@ -32,7 +27,7 @@
               </div>
             <% end %>
             <% if params[:query].present? %>
-              <a class="btn-sm btn-danger ml-1" href="<%= teacher_master_classes_path %>">
+              <a class="btn-sm btn-danger ml-1" href="<%= teacher_students_path %>">
                 <i class="fa-solid fa-xmark"></i>
               </a>
             <% end %>
@@ -46,50 +41,53 @@
           <thead>
           <tr>
             <th>#</th>
-            <th>Class Name</th>
-            <th>Active Course</th>
-            <th>Total Student</th>
+            <th>Student Number</th>
+            <th>Full Name</th>
+            <th>Date of Birth</th>
+            <th>Classes</th>
             <th>Action</th>
           </tr>
           </thead>
           <tbody>
-          <% @master_classes.each_with_index do |master_class, index| %>
+          <% @students.each_with_index do |student, index| %>
             <tr data-widget="expandable-table" aria-expanded="false">
               <td><%= @pagy.offset + index + 1 %></td>
-              <td style="width: 20%"><%= master_class.name %></td>
-              <td style="width: 40%"><%= master_class.course_enrollments.active.present? ? master_class.course_enrollments.active.map {|c_enrollment| c_enrollment.course.title}.join(", ") : '-' %></td>
-              <td style="width: 20%">
-                <%= master_class.students.count %> Students</td>
-              <td>
-                <%= link_to teacher_master_class_path(master_class), class: "btn btn-primary" do %>
+              <td style="width: 15%"><%= student.student_number %></td>
+              <td style="width: 30%"><%= student.full_name %></td>
+              <td style="width: 15%"><%= student.date_of_birth %></td>
+              <td ><%= student.master_classes.present? ? student.master_classes.where(teacher_id: @teacher.id).map {|c| c.name}.join(", ") : "-" %></td>
+              <td style="width: 10%">
+                <%= link_to teacher_student_path(student), class: "btn btn-primary" do %>
                   <%= tag.i class: 'fa-solid fa-circle-info' %>
                   Detail
                 <% end %>
               </td>
             </tr>
             <tr class="expandable-body d-none">
-              <td colspan="5">
-                <div style="padding-top: 12px; margin-top: 0px; padding-bottom: 12px; margin-bottom: 16px; display: none; padding-left: 16px;">
-                  <% if master_class.students.present? %>
-                    <h6>Student List</h6>
-                  <% else %>
-                    <h6>Has no student</h6>
-                  <% end %>
-                  <ul>
-                    <% master_class.students.each do |student| %>
-                      <li><%= student.full_name %> (<%= student.student_number %>)</li>
-                    <% end %>
-                  </ul>
-                  <% if master_class.course_enrollments.active.present? %>
-                    <h6>Active Course</h6>
-                    <ul>
-                      <li><%= master_class.course_enrollments.active.first.course.title %></li>
-                    </ul>
-                  <% else %>
-                    <h6>Has no active course</h6>
-                  <% end %>
-                </div>
-              </td>
+<!--              <td colspan="5">-->
+<!--                <div style="padding-top: 12px; margin-top: 0px; padding-bottom: 12px; margin-bottom: 16px; display: none; padding-left: 16px;">-->
+                  <%# if student.master_classes.present? %>
+<!--                    <h6>Class List</h6>-->
+                  <%# else %>
+<!--                    <h6>Has no class</h6>-->
+                  <%# end %>
+<!--                  <ul>-->
+                    <%# student.master_classes.each do |master_class| %>
+<!--                      <li><%#= master_class.name %></li>-->
+                    <%# end %>
+<!--                  </ul>-->
+                  <%# if student.course_enrollments.active.present? %>
+<!--                    <h6>Active Course List</h6>-->
+                  <%# else %>
+<!--                    <h6>Has no active course</h6>-->
+                  <%# end %>
+<!--                  <ul>-->
+                    <%# student.course_enrollments.active.each do |course_enrollment| %>
+<!--                      <li><%#= course_enrollment.course.title %></li>-->
+                    <%# end %>
+<!--                  </ul>-->
+<!--                </div>-->
+<!--              </td>-->
             </tr>
           <% end %>
           </tbody>
