@@ -9,4 +9,8 @@ class Report < ApplicationRecord
   validates :course_enrollment_id, presence: true
   validates :teacher_id, presence: true
   validates :student_id, presence: true
+
+  def self.report_exist?(course_enrollment_id, student_id)
+    Report.find_by(course_enrollment_id: course_enrollment_id, student_id: student_id).present?
+  end
 end

@@ -30,4 +30,9 @@ class CourseEnrollment < ApplicationRecord
       errors.add(:end_date, "must be after the start date")
     end
   end
+
+  def reportable?
+    10.days.from_now.to_date >= self.end_date && self.end_date <= self.end_date + 30.days
+  end
+
 end

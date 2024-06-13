@@ -26,43 +26,77 @@
       </div>
       <div class="card-body">
         <% @student.master_classes.where(teacher_id: @teacher.id).each do |c| %>
-          <div class="card collapsed-card card-lightblue">
+          <div class="card card-lightblue">
             <div class="card-header">
               <h3 class="card-title">Class <%= c.name %></h3>
               <div class="card-tools">
                 <!-- Collapse Button -->
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                </button>
               </div>
               <!-- /.card-tools -->
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <h5>Course Enrollments</h5>
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered ">
                 <thead>
                 <tr>
                   <th>#</th>
                   <th>Course Title</th>
                   <th>Start Date</th>
                   <th>End Date</th>
+                  <th>Report Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                  <% c.course_enrollments.each_with_index do |course_enrollment, index| %>
-                    <tr>
-                      <td><%= index + 1 %></td>
-                      <td><%= course_enrollment.course.title %></td>
-                      <td><%= course_enrollment.start_date %></td>
-                      <td><%= course_enrollment.end_date %></td>
-                      <td>
-                        <%= link_to teacher_student_path(@student), class: "btn btn-primary" do %>
-                          <%= tag.i class: 'fa-solid fa-circle-info' %>
-                          Add Report
-                        <% end %>
-                      </td>
-                    </tr>
-                  <% end %>
+                <% unless c.course_enrollments.present? %>
+                  <tr>
+                    <td colspan="6">
+                      <p style="text-align: center">Empty Data</p>
+                    </td>
+                  </tr>
+                <% end %>
+                <% c.course_enrollments.each_with_index do |course_enrollment, index| %>
+                  <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= course_enrollment.course.title %></td>
+                    <td><%= course_enrollment.start_date %></td>
+                    <td><%= course_enrollment.end_date %></td>
+                    <td>
+                      <% if Report.report_exist?(course_enrollment.id, @student.id) %>
+                        <span class="badge badge-primary">Created</span>
+                      <% else %>
+                        <span class="badge badge-secondary">Not Created</span>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if course_enrollment.reportable? && !Report.report_exist?(course_enrollment.id, @student.id) %>
+                          <span data-toggle="tooltip" data-placement="top" title="Add report">
+                          <%= link_to new_teacher_student_course_enrollment_report_path(@student, course_enrollment), class: "btn btn-success" do %>
+                            <%= tag.i class: 'fa-solid fa-plus' %>
+                              Add Report
+                          <% end %>
+                          </span>
+                      <% elsif  course_enrollment.reportable? && Report.report_exist?(course_enrollment.id, @student.id)%>
+                        <span data-toggle="tooltip" data-placement="top" title="Add report">
+                          <%= link_to edit_teacher_student_course_enrollment_report_path(@student, course_enrollment), class: "btn btn-success" do %>
+                            <%= tag.i class: 'fa-solid fa-plus' %>
+                            Edit Report
+                          <% end %>
+                        </span>
+                      <% else %>
+                          <span data-toggle="tooltip" data-placement="top" title="Minimum 10 days before end date">
+                          <%= link_to teacher_student_path(@student), class: "btn btn-success disabled", aria: { disabled: "true" } do %>
+                            <%= tag.i class: 'fa-solid fa-plus' %>
+                              Add Report
+                          <% end %>
+                          </span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
                 </tbody>
               </table>
             </div>
@@ -76,3 +110,9 @@
 
   </div>
 </div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

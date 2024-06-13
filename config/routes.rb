@@ -20,8 +20,11 @@ Rails.application.routes.draw do
   namespace :teacher do
     root 'home#index'
     resources :master_classes, only: [:index, :show]
-    resources :students, only: [:index, :show]
-    resources :reports, only: [:new, :create, :edit, :update]
+    resources :students, only: [:index, :show] do
+      resources :course_enrollments do
+        resources :reports, only: [:new, :create, :edit, :update]
+      end
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
