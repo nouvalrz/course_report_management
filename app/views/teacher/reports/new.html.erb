@@ -61,8 +61,13 @@
           </div>
 
           <%= link_to_add_fields "Add Report Detail", f, :report_details %>
-          <div class="row mt-4">
-            <div class="col-12">
+          <div class="row mt-4 justify-content-between">
+            <div class="col-4">
+              <blockquote class="m-0">
+                <p id="average-score">Average Score : 0</p>
+              </blockquote>
+            </div>
+            <div class="col-4">
               <%= f.submit "Save", class: "btn btn-primary w-100" %>
             </div>
           </div>
@@ -74,39 +79,58 @@
 
 <script>
     $(document).ready(function (){
+        $('.select-criterium').select2({
+            theme: 'bootstrap4',
+            width: '100%'
+        })
         $(document).off('click', '.add_fields');
         $(document).on('click', '.add_fields', function(event) {
             var time = new Date().getTime();
-            var regexp = new RegExp($(this).data('id'), 'g');
+            var regexp = new RegExp('report_report_details_report_criterium_id', 'g');
             var newFields = $(this).data('fields').replace(regexp, time);
+
+            // console.log(regexp)
+            // console.log(newFields)
 
             // Tambahkan form baru
             $(this).before(newFields);
 
-
             // Temukan form baru dan tambahkan opsi default
             var newSelect = $('.nested-fields:last-child .course-select');
             newSelect.prepend('<option value="" selected="selected" disabled="disabled">Select Course</option>');
+
             $('.select-criterium').select2({
                 theme: 'bootstrap4',
-            });
+                width: '100%'
+            })
+            // $('.report-detail-score').on('input', calculateAvgScore);
+            event.preventDefault();
+        });
 
+        // $('.report-detail-score').on('input', calculateAvgScore);
+        $(document).on('input', '.report-detail-score', calculateAvgScore)
+
+        $(document).on('click', '.remove_fields', function(event) {
+            $(this).prev('input[type=hidden]').val('1');
+            $(this).closest('.nested-fields').hide();
+            calculateAvgScore();
             event.preventDefault();
         });
     })
 
+    const calculateAvgScore = function() {
+        const allScores = $('.report-detail-score:visible').toArray();
+        console.log(allScores);
+
+        const sumScores = allScores.reduce((acc, item) => acc + parseInt($(item).val()), 0);
+        const avgScore = sumScores / allScores.length;
+
+        $('#average-score').text(`Average Score : ${avgScore ? avgScore : '0'}`);
+        console.log(avgScore);
+    }
 
 
-    $(document).on('click', '.remove_fields', function(event) {
-        $(this).prev('input[type=hidden]').val('1');
-        $(this).closest('.nested-fields').hide();
-        event.preventDefault();
-    });
 
 
-    $(document).ready(function() {
-        $('.select-criterium').select2({
-            theme: 'bootstrap4',
-        });
-    });
+
 </script>
