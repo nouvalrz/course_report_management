@@ -1,3 +1,14 @@
+<style>
+    .error {
+        display: block !important;
+    }
+
+    /*.validation-icon {*/
+    /*    display: none;*/
+    /*    margin-left: 5px;*/
+    /*    cursor: pointer;*/
+    /*}*/
+</style>
 <h2>Create Report</h2>
 <div class="row mt-3">
   <div class="col-12 col-lg-3">
@@ -9,18 +20,18 @@
           </div>
           <div class="card-body">
             <%= form_with model: @student, url: '#' do |f| %>
-                <div class="form-group">
-                  <%= f.label :full_name, "Full Name" %>
-                  <%= f.text_field :full_name, class: "form-control", placeholder: "Class Name", disabled: true %>
-                </div>
-                <div class="form-group">
-                  <%= f.label :student_number, "Student Number" %>
-                  <%= f.text_field :student_number, class: "form-control", placeholder: "Class Name", disabled: true %>
-                </div>
-                <div class="form-group">
-                  <%= f.label :class_name, "Class Name" %>
-                  <%= f.text_field :class_name, class: "form-control", placeholder: "Class Name", disabled: true, value: @course_enrollment.master_class.name %>
-                </div>
+              <div class="form-group">
+                <%= f.label :full_name, "Full Name" %>
+                <%= f.text_field :full_name, class: "form-control", placeholder: "Class Name", disabled: true %>
+              </div>
+              <div class="form-group">
+                <%= f.label :student_number, "Student Number" %>
+                <%= f.text_field :student_number, class: "form-control", placeholder: "Class Name", disabled: true %>
+              </div>
+              <div class="form-group">
+                <%= f.label :class_name, "Class Name" %>
+                <%= f.text_field :class_name, class: "form-control", placeholder: "Class Name", disabled: true, value: @course_enrollment.master_class.name %>
+              </div>
             <% end %>
           </div>
         </div>
@@ -50,16 +61,13 @@
         <h3 class="card-title">Report Form</h3>
       </div>
       <div class="card-body">
-        <%= form_with model: @report, url: teacher_student_course_enrollment_reports_path, method: 'post' do |f| %>
+        <%= form_with model: @report, url: teacher_student_course_enrollment_reports_path, method: 'post', id: 'report-form' do |f| %>
           <!-- Classroom fields -->
-
-          <!--        <h3>Course Enrollments</h3>-->
           <div id="report_details">
             <%= f.fields_for :report_details do |report_detail_fields| %>
               <%= render 'report_detail_fields', f: report_detail_fields %>
             <% end %>
           </div>
-
           <%= link_to_add_fields "Add Report Detail", f, :report_details %>
           <div class="row mt-4 justify-content-between">
             <div class="col-4">
@@ -78,59 +86,128 @@
 </div>
 
 <script>
-    $(document).ready(function (){
+    $(document).ready(function () {
         $('.select-criterium').select2({
             theme: 'bootstrap4',
             width: '100%'
-        })
+        });
+
         $(document).off('click', '.add_fields');
-        $(document).on('click', '.add_fields', function(event) {
+        $(document).on('click', '.add_fields', function (event) {
             var time = new Date().getTime();
-            var regexp = new RegExp('report_report_details_report_criterium_id', 'g');
+            var regexp = new RegExp($(this).data('id'), 'g');
             var newFields = $(this).data('fields').replace(regexp, time);
 
-            // console.log(regexp)
-            // console.log(newFields)
-
-            // Tambahkan form baru
             $(this).before(newFields);
-
-            // Temukan form baru dan tambahkan opsi default
-            var newSelect = $('.nested-fields:last-child .course-select');
-            newSelect.prepend('<option value="" selected="selected" disabled="disabled">Select Course</option>');
 
             $('.select-criterium').select2({
                 theme: 'bootstrap4',
                 width: '100%'
-            })
-            // $('.report-detail-score').on('input', calculateAvgScore);
+            });
+
+            var newSelect = $('.nested-fields:last-child .criterium-select');
+            newSelect.prepend('<option value="" selected="selected" disabled="disabled">Select Course</option>');
+
             event.preventDefault();
         });
 
-        // $('.report-detail-score').on('input', calculateAvgScore);
-        $(document).on('input', '.report-detail-score', calculateAvgScore)
+        $(document).on('click', '.remove_fields', function (event) {
+            $(this).prev('input[type=hidden]').val('1');
+            $(this).closest('.nested-fields').hide();
+            event.preventDefault();
+        });
 
-        $(document).on('click', '.remove_fields', function(event) {
+        $(document).on('input', '.report-detail-score', calculateAvgScore);
+
+        $(document).on('click', '.remove_fields', function (event) {
             $(this).prev('input[type=hidden]').val('1');
             $(this).closest('.nested-fields').hide();
             calculateAvgScore();
             event.preventDefault();
         });
-    })
 
-    const calculateAvgScore = function() {
+        $('#report-form').validate({
+            errorPlacement: function(error, element) {
+                // Check if there is an error message
+                if (error.text().trim().length > 0) {
+                    var label = element.siblings('label');
+                    var span = $('<span class="validation-icon" data-toggle="tooltip" title=""></span>');
+                    span.attr('title', error.text());
+                    label.wrap(span);
+                    label.after('<i class="fas fa-exclamation-circle ml-1"></i>');
+                    $('[data-toggle="tooltip"]').tooltip()
+                    // if (icon.length === 0) {
+                    //     icon = $('<span class="validation-icon" data-toggle="tooltip" title=""><i class="fas fa-exclamation-circle"></i></span>');
+                    //     label.append(icon);
+                    //     icon.tooltip({ placement: 'right', trigger: 'hover' });
+                    // }
+                    // icon.attr('data-original-title', error.text());
+                }
+            },
+            highlight: function(element, errorClass, validClass) {
+                // var label = $(element).siblings('label');
+                // var icon = label.find('.validation-icon');
+                // icon.attr('title', 'Error');
+                $(element).addClass('is-invalid').removeClass(validClass);
+                // icon.stop(true, true).fadeIn();
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                // var label = $(element).siblings('label');
+                // var icon = label.find('.validation-icon');
+                // icon.stop(true, true).fadeOut(function() {
+                //     icon.tooltip('disable');
+                // });
+                // $(element).before().remove();
+                $(element).removeClass('is-invalid').addClass(validClass);
+            }
+        })
+
+
+        $('#report-form').on('submit', function (e) {
+            e.preventDefault();
+
+            $('[name*="[report_criterium_id]"]').each(function () {
+                $(this).rules('add', {
+                    required: true,
+                    messages: {
+                        required: 'Please choose criteria'
+                    }
+                });
+            });
+
+            $('[name*="[description]"]').each(function () {
+                $(this).rules('add', {
+                    required: true,
+                    messages: {
+                        required: 'Please input desc'
+                    }
+                });
+            });
+
+            $('[name*="[score]"]').each(function () {
+                $(this).rules('add', {
+                    required: true,
+                    min: 1,
+                    max: 100,
+                    messages: {
+                        required: 'Please input score',
+                        min: 'Score must be at least 1',
+                        max: 'Score must be at most 100'
+                    }
+                });
+            });
+
+            if ($('#report-form').valid()) {
+                $('#report-form')[0].submit();
+            }
+        });
+    });
+
+    const calculateAvgScore = function () {
         const allScores = $('.report-detail-score:visible').toArray();
-        console.log(allScores);
-
         const sumScores = allScores.reduce((acc, item) => acc + parseInt($(item).val()), 0);
+
         const avgScore = sumScores / allScores.length;
-
         $('#average-score').text(`Average Score : ${avgScore ? avgScore : '0'}`);
-        console.log(avgScore);
-    }
-
-
-
-
-
+    };
 </script>

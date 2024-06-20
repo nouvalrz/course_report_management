@@ -4,6 +4,8 @@ class Report < ApplicationRecord
   belongs_to :student
   has_many :report_details
 
+  accepts_nested_attributes_for :report_details, allow_destroy: true
+
   validates :average_score, numericality: {greater_than_or_equal_to: 0, less_than_or_equal_to: 100}
   validates :is_publish, inclusion: { in: [true, false] }
   validates :course_enrollment_id, presence: true

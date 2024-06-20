@@ -2,15 +2,18 @@
   <div class="row align-items-start">
     <div class="col-3">
       <%= f.label :report_criterium_id, "Select Criterium" %>
-      <%= f.collection_select :report_criterium_id, ReportCriterium.all, :id, :title, { include_blank: true }, class: "select-criterium" %>
+<!--      <span class="validation-icon" data-toggle="tooltip" title=""><i class="fas fa-exclamation-circle"></i></span>-->
+      <%= f.collection_select :report_criterium_id, ReportCriterium.all, :id, :title, { include_blank: true }, class: "select-criterium report[report_details][report_criterium_id]" %>
     </div>
     <div class="col-6">
       <%= f.label :description, "Description" %>
-      <%= f.text_area :description, class: "form-control", rows: 1  %>
+<!--      <span class="validation-icon" data-toggle="tooltip" title=""><i class="fas fa-exclamation-circle"></i></span>-->
+      <%= f.text_area :description, class: "form-control report[report_details][description]", rows: 1  %>
     </div>
     <div class="col-2">
       <%= f.label :score, "Score" %>
-      <%= f.number_field :score, class: "form-control report-detail-score", min: "1", max: "100", value: 0  %>
+<!--      <span class="validation-icon" data-toggle="tooltip" title=""><i class="fas fa-exclamation-circle"></i></span>-->
+      <%= f.number_field :score, class: "form-control report-detail-score report[report_details][score]", value: 0  %>
     </div>
     <div class="col-1">
       <%= f.hidden_field :_destroy %>
