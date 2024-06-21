@@ -13,11 +13,11 @@
     <div class="col-2">
       <%= f.label :score, "Score" %>
 <!--      <span class="validation-icon" data-toggle="tooltip" title=""><i class="fas fa-exclamation-circle"></i></span>-->
-      <%= f.number_field :score, class: "form-control report-detail-score report[report_details][score]", value: 0  %>
+      <%= f.number_field :score, class: "form-control report-detail-score report[report_details][score]"  %>
     </div>
     <div class="col-1">
-      <%= f.hidden_field :_destroy %>
       <%= f.label :action, "Action" %>
+      <%= f.hidden_field :_destroy %>
       <%= link_to '#', class: 'remove_fields btn btn-danger' do %>
         <i class="fas fa-trash"></i>
       <% end %>

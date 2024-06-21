@@ -80,9 +80,9 @@
                           <% end %>
                           </span>
                       <% elsif  course_enrollment.reportable? && Report.report_exist?(course_enrollment.id, @student.id)%>
-                        <span data-toggle="tooltip" data-placement="top" title="Add report">
-                          <%= link_to edit_teacher_student_course_enrollment_report_path(@student, course_enrollment), class: "btn btn-success" do %>
-                            <%= tag.i class: 'fa-solid fa-plus' %>
+                        <span data-toggle="tooltip" data-placement="top" title="Edit report">
+                          <%= link_to edit_teacher_student_course_enrollment_report_path(@student, course_enrollment, Report.find_by(course_enrollment_id: course_enrollment.id, student_id: @student.id)), class: "btn btn-primary" do %>
+                            <%= tag.i class: 'fa-solid fa-edit' %>
                             Edit Report
                           <% end %>
                         </span>
